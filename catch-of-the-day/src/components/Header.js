@@ -11,8 +11,7 @@ class Header extends React.Component {
           </span>
         </h1>
         <h3 className="tagline">
-          { /* <Inventory /> */ }
-          { /* <Order /> */ }
+          <span>{this.props.tagline}</span>
         </h3>
       </header>
     );
