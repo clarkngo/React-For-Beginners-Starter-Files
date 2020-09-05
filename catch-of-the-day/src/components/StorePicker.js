@@ -1,9 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { getFunName } from '../helpers';
 
 class StorePicker extends React.Component {
 
   myInput = React.createRef();
+
+  static propType = {
+    history: PropTypes.string.isRequired
+  }
 
   // component property
   goToStore = (event) => {
