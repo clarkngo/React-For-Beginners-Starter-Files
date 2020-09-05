@@ -36,7 +36,7 @@ class App extends React.Component {
 
   addFish = fish => {
     // 1. take copy of the existing state
-    const fishes = {...this.state.fishes}
+    const fishes = { ...this.state.fishes };
     // 2. add our new fish to that fishes variable
     fishes[`fish${Date.now()}`] = fish;
     // 3. set new fishes object to state
@@ -45,9 +45,19 @@ class App extends React.Component {
 
   updateFish = (key, updatedFish) => {
     // 1. take copy of the current state
-    const fishes = {...this.state.fishes}
+    const fishes = { ...this.state.fishes };
     // 2. update that state
     fishes[key] = updatedFish;
+    // 3. set that to state
+    this.setState({ fishes });
+  }
+
+  deleteFish = key => {
+    // 1. take a copy of the current state
+    const fishes = { ...this.state.fishes };
+    // 2. update the state
+    // "delete" is NOT possible in firebase
+    fishes[key] = null;
     // 3. set that to state
     this.setState({ fishes });
   }
@@ -65,6 +75,16 @@ class App extends React.Component {
     this.setState({ order });
   };
 
+  removeFromOrder = key => {
+    // 1 . take copy of the existing state
+    const order = { ...this.state.order };
+    // 2. remove that item from order
+    // "delete" is possible in localStorage
+    delete order[key];
+    // 3. call setState to update our state object
+    this.setState({ order });
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -77,13 +97,18 @@ class App extends React.Component {
                 index={key}
                 details={this.state.fishes[key]}
                 addToOrder={this.addToOrder}
-              />)}
+                />)}
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order
+          fishes={this.state.fishes}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}
+        />
         <Inventory
           addFish={this.addFish}
           updateFish={this.updateFish}
+          deleteFish={this.deleteFish}
           loadSampleFishes={this.loadSamplesFishes}
           fishes={this.state.fishes}
         />
